@@ -28,13 +28,11 @@ def datosSinRepetir(lista):
             lista_sin_repetir.append(i)
     return lista_sin_repetir
 
-#función para el ejercicio 3
-def ejercicio3(doc, ruta1):
-    lista_provincias=datos(doc, ruta1)
-    lista_pequeña=datos(doc,"/RAIZ/PROVINCIA[NOMBRE='%s']/CARRETERA/DENOMINACION/text()" %(i))
-    return zip(lista_provincias,lista_pequeña)
-
 #función para el ejercicio 4
+def ejercicio4(doc, ruta):
+    lista_carreteras_repetidas=datos(doc, ruta)
+    lista_carreteras_sin_repetir=datosSinRepetir(lista_carreteras_repetidas)
+    return lista_carreteras_sin_repetir
 
 #menu principal
 while True:
@@ -51,33 +49,52 @@ while True:
         for i in range(len(ejercicio1(doc,"/RAIZ/PROVINCIA/NOMBRE/text()"))):
             print(i, "-", ejercicio1(doc,"/RAIZ/PROVINCIA/NOMBRE/text()")[i])
         print("")
-        tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
+        tecla= input("PRESIONA INTRO PARA CONTINUAR")
 
     elif opcion=="2":
         print("Tenemos constancia de",len(datos(doc, "//CARRETERA/RADAR/PUNTO_INICIAL/PK/text()")), "radares")
         print(" ")
-        tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
+        tecla= input("PRESIONA INTRO PARA CONTINUAR")
 
     elif opcion=="3":
-        #for i in ejercicio3(doc, "/RAIZ/PROVINCIA/NOMBRE/text()"):
-        #    for x in i:
-        #        print("Carreteras de", x)
-        for prov, total in ejercicio3(doc, "/RAIZ/PROVINCIA/NOMBRE/text()"):
-            print(prov,"- Cantidad de radares:", len(total))
-            for i in total:
-                print("     -",i)
+        prov=input("Introduce la provincia: ")
+        print("")
+        while prov not in ejercicio1(doc,"/RAIZ/PROVINCIA/NOMBRE/text()"):
+            print("Ha ocurrido un error. La provincia que has introducir no se encuentra")
+            print("Prueba escribiendo la primera letra en mayúscula")
             print("")
-        tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
+            prov=input("Introduce la provincia: ")
+        print("Los radares en", prov, "son", len(datos(doc,"/RAIZ/PROVINCIA[NOMBRE='%s']/CARRETERA/DENOMINACION/text()" %(prov))))
+        print("Las carreteras son:")
+        for i in datosSinRepetir(datos(doc,"/RAIZ/PROVINCIA[NOMBRE='%s']/CARRETERA/DENOMINACION/text()" %(prov))):
+            print(" -", i)
+        print("")
+        tecla= input("PRESIONA INTRO PARA CONTINUAR")
 
     elif opcion=="4":
-        print(ejercicio4(dos, "/RAIZ/PROVINCIA"))
+        print("Las carreteras con radares son:")
+        for i in datosSinRepetir(datos(doc, "/RAIZ/PROVINCIA/CARRETERA/DENOMINACION/text()")):
+            print("     -",i)
+
+        car=input("Introduce la carretera: ")
         print("")
-        tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
+        print("Las carreteras son:")              
+        while car not in datos(doc,"/RAIZ/PROVINCIA/CARRETERA/DENOMINACION/text()"):
+            print("Ha ocurrido un error. La carretera que has introducir no se encuentra")
+            print("")
+            car=input("Introduce la carretera: ")
+        carretera=datos(doc, "/RAIZ/PROVINCIA[CARRETERA/DENOMINACION='%s']/NOMBRE/text()" %(car))
+        print("La carretera", car,"tiene",len(carretera), "radar/es")
+        print("y pasa por:")
+        for i in carretera:
+            print("     -",i)
+        print("")
+        tecla= input("PRESIONA INTRO PARA CONTINUAR")
 
     elif opcion=="5":
 
         print("")
-        tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
+        tecla= input("PRESIONA INTRO PARA CONTINUAR")
 
     elif opcion=="0":
         print("Adios")

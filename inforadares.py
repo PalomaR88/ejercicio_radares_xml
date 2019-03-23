@@ -31,14 +31,10 @@ def datosSinRepetir(lista):
 #función para el ejercicio 3
 def ejercicio3(doc, ruta1):
     lista_provincias=datos(doc, ruta1)
-    lista_grande=[]
-    lista_pequeña=[]
-    for i in lista_provincias:
-        #lista_pequeña.append(i)
-        lista_pequeña.append(datos(doc,"/RAIZ/PROVINCIA[NOMBRE='%s']/CARRETERA/DENOMINACION/text()" %(i)))
-        #lista_grande.append(lista_pequeña)
-        #lista_pequeña=[]
+    lista_pequeña=datos(doc,"/RAIZ/PROVINCIA[NOMBRE='%s']/CARRETERA/DENOMINACION/text()" %(i))
     return zip(lista_provincias,lista_pequeña)
+
+#función para el ejercicio 4
 
 #menu principal
 while True:
@@ -74,7 +70,7 @@ while True:
         tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
 
     elif opcion=="4":
-
+        print(ejercicio4(dos, "/RAIZ/PROVINCIA"))
         print("")
         tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
 

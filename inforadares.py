@@ -21,15 +21,24 @@ def datosSinRepetir(lista):
     lista_sin_repetir=[]
     for i in lista:
         existe=False
-        for x in len(lista):
-#            if lista[i]==lista_sin_repetir[x]:
-#                existe=True
-#        if existe==False:
-#            lista_sin_repetir.append(lista[i])
-            print(x)
+        for x in lista_sin_repetir:
+            if i==x:
+                existe=True
+        if existe==False:
+            lista_sin_repetir.append(i)
     return lista_sin_repetir
 
-
+#función para el ejercicio 3
+def ejercicio3(doc, ruta1):
+    lista_provincias=datos(doc, ruta1)
+    lista_grande=[]
+    lista_pequeña=[]
+    for i in lista_provincias:
+        #lista_pequeña.append(i)
+        lista_pequeña.append(datos(doc,"/RAIZ/PROVINCIA[NOMBRE='%s']/CARRETERA/DENOMINACION/text()" %(i)))
+        #lista_grande.append(lista_pequeña)
+        #lista_pequeña=[]
+    return zip(lista_provincias,lista_pequeña)
 
 #menu principal
 while True:
@@ -49,12 +58,19 @@ while True:
         tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
 
     elif opcion=="2":
-
+        print("Tenemos constancia de",len(datos(doc, "//CARRETERA/RADAR/PUNTO_INICIAL/PK/text()")), "radares")
         print(" ")
         tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
 
     elif opcion=="3":
-        print("")
+        #for i in ejercicio3(doc, "/RAIZ/PROVINCIA/NOMBRE/text()"):
+        #    for x in i:
+        #        print("Carreteras de", x)
+        for prov, total in ejercicio3(doc, "/RAIZ/PROVINCIA/NOMBRE/text()"):
+            print(prov,"- Cantidad de radares:", len(total))
+            for i in total:
+                print("     -",i)
+            print("")
         tecla= input("PRESIONA UNA INTRO PARA CONTINUAR")
 
     elif opcion=="4":

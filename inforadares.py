@@ -75,7 +75,6 @@ while True:
         print("Las carreteras con radares son:")
         for i in datosSinRepetir(datos(doc, "/RAIZ/PROVINCIA/CARRETERA/DENOMINACION/text()")):
             print("     -",i)
-
         car=input("Introduce la carretera: ")
         print("")
         print("Las carreteras son:")              
@@ -92,6 +91,14 @@ while True:
         tecla= input("PRESIONA INTRO PARA CONTINUAR")
 
     elif opcion=="5":
+        print("Las carreteras con radares son:")
+        for i in datosSinRepetir(datos(doc, "/RAIZ/PROVINCIA/CARRETERA/DENOMINACION/text()")):
+            print("     -",i)
+        car=input("Introduce la carretera: ")
+        lat=datos(doc, "/RAIZ/PROVINCIA/CARRETERA[DENOMINACION='%s']/RADAR/PUNTO_INICIAL/LATITUD/text()" %(car))
+        lon=datos(doc, "/RAIZ/PROVINCIA/CARRETERA[DENOMINACION='%s']/RADAR/PUNTO_INICIAL/LONGITUD/text()" %(car))
+        for i in range(len(lat)):
+            print('https://www.openstreetmap.org/#map=15/%s/%s' %(lat[i], lon[i]))
 
         print("")
         tecla= input("PRESIONA INTRO PARA CONTINUAR")
@@ -104,5 +111,6 @@ while True:
         print(" ")
              
 
-
+#https://www.openstreetmap.org/#map=6/40.007/-2.488
+#https://www.openstreetmap.org/#map=6/latitud/longitud
 
